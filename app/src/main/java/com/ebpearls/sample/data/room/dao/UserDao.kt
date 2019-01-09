@@ -9,6 +9,6 @@ import com.ebpearls.sample.ui.login.LoginResponse
 @Dao
 interface UserDao : BaseDao<LoginResponse> {
 
-    @Query("select * from user where email=:userEmail")
-    fun getUserById(userEmail: String): LiveData<LoginResponse>
+    @Query("select * from user order by _id ASC limit 1")
+    fun getUserById(): LiveData<LoginResponse>
 }

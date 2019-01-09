@@ -11,7 +11,8 @@ class LoginViewModel(private val loginRepository: LoginRepository, @StringRes va
 
     fun doLogin(): LiveData<Resource<LoginResponse>> {
 //        return loginRepository.fetchPersonalDetail(LoginRequest())
-        return loginRepository.doLogin(LoginRequest())
+        return loginRepository.fetchPersonalDetail(LoginRequest())
+
 
 //        viewModelScope.launch {
 //            withContext(IO) {

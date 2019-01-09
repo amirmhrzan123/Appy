@@ -21,10 +21,13 @@ import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import com.ebpearls.sample.AppExecutors
-import com.ebpearls.sample.MainThreadExecutor
 import com.ebpearls.sample.Resource
 import com.ebpearls.sample.base.BaseResponse
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * A generic class that can provide a resource backed by both the sqlite database and the network.
@@ -36,7 +39,7 @@ import com.ebpearls.sample.base.BaseResponse
  * @param <RequestType>
 </RequestType></ResultType> */
 abstract class NetworkBoundResource<ResultType, RequestType>
-@MainThread constructor(private val appExecutors: MainThreadExecutor.SchedulerProvider) {
+@MainThread constructor(private val viewModelScope: CoroutineScope) {
 
     private val result = MediatorLiveData<Resource<ResultType>>()
 
@@ -52,11 +55,12 @@ abstract class NetworkBoundResource<ResultType, RequestType>
                 result.addSource(dbSource) { newData ->
                     setValue(Resource.success(newData))
                 }
+                fetchFromNetwork(MutableLiveData<ResultType>())
             }
         }
     }
 
-    @MainThread
+
     private fun setValue(newValue: Resource<ResultType>) {
         if (result.value != newValue) {
             result.value = newValue
@@ -74,25 +78,32 @@ abstract class NetworkBoundResource<ResultType, RequestType>
             result.removeSource(dbSource)
             when (response) {
                 is ApiSuccessResponse -> {
-                    appExecutors.diskIO().execute {
-                        saveCallResult(processResponse(response))
-                        appExecutors.mainThread().execute {
+                    viewModelScope.launch {
+                        withContext(IO) {
+                            saveCallResult(processResponse(response))
+
                             // we specially request a new live data,
                             // otherwise we will get immediately last cached value,
                             // which may not be updated with latest results received from network.
-                            result.addSource(loadFromDb()) { newData ->
-                                setValue(Resource.success(newData))
+                            withContext(Main) {
+                                result.addSource(loadFromDb()) { newData ->
+                                    setValue(Resource.success(newData))
+                                }
                             }
+
                         }
+
                     }
                 }
                 is ApiEmptyResponse -> {
-                    appExecutors.mainThread().execute {
-                        // reload from disk whatever we had
+                    viewModelScope.launch {
                         result.addSource(loadFromDb()) { newData ->
                             setValue(Resource.success(newData))
                         }
                     }
+                    // reload from disk whatever we had
+
+
                 }
                 is ApiErrorResponse -> {
                     onFetchFailed()

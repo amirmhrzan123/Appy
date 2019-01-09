@@ -2,11 +2,12 @@ package com.ebpearls.sample.di
 
 import android.content.Context
 import android.content.res.Resources
-import com.ebpearls.sample.AppExecutors
-import com.ebpearls.sample.MainThreadExecutor
 import com.ebpearls.sample.data.api.ApiServices
 import com.ebpearls.sample.di.DataSourceProperties.SERVER_URL
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module.Module
@@ -23,7 +24,7 @@ import java.util.concurrent.TimeUnit
  */
 val appModule = module {
     single { provideResources(get()) }
-    single { AppExecutors() as MainThreadExecutor.SchedulerProvider }
+    single { CoroutineScope(Dispatchers.Main + Job()) }
 
 }
 

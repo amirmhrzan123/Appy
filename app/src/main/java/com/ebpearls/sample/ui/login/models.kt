@@ -3,7 +3,7 @@ package com.ebpearls.sample.ui.login
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-data class LoginRequest(val email: String = "dwell@getnada.com", val password: String = "password", val login_as: Int = 1)
+data class LoginRequest(val email: String = "hira.shrestha@ebpearls.com", val password: String = "ebpearls123", val login_as: Int = 1)
 @Entity(tableName = "user")
 data class LoginResponse(
         @PrimaryKey
