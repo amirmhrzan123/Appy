@@ -36,7 +36,7 @@ class LoginRepositoryImpl(private val prefs: PrefsManager, private val apiServic
                 val response = apiService.doLogin(request).await()
                 loginResponse.postValue(Resource.success(response.results))
 
-            } catch (e: Exception) {
+            } catch (e: Throwable) {
 
                 loginResponse.postValue(Resource.error(e.localizedMessage, null))
             }
