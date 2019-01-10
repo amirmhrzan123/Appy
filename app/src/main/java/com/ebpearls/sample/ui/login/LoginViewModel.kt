@@ -5,8 +5,10 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
 import com.ebpearls.sample.Resource
 import com.ebpearls.sample.base.BaseViewModel
+import kotlinx.coroutines.cancel
 
 class LoginViewModel(private val loginRepository: LoginRepository, @StringRes val resources: Resources) : BaseViewModel<LoginNavigator>() {
+
 
 
     fun doLogin(): LiveData<Resource<LoginResponse>> {
@@ -34,4 +36,14 @@ class LoginViewModel(private val loginRepository: LoginRepository, @StringRes va
 //        }
 
     }
+
+    override fun onCleared() {
+        super.onCleared()
+        loginRepository.getScope().cancel()
+    }
+
+    fun onLoginClicked(){
+        getNavigator().onLoginSuccess()
+    }
+
 }

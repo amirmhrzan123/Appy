@@ -19,11 +19,15 @@ import kotlinx.coroutines.launch
 interface LoginRepository {
     fun fetchPersonalDetail(request: LoginRequest): LiveData<Resource<LoginResponse>>
     fun doLogin(request: LoginRequest): LiveData<Resource<LoginResponse>>
+    fun getScope(): CoroutineScope
 
 
 }
 
-class LoginRepositoryImpl(private val prefs: PrefsManager, private val apiService: ApiServices, private val useDao: UserDao, private val viewModelScope: CoroutineScope) : LoginRepository {
+class LoginRepositoryImpl(private val prefs: PrefsManager, private val apiService: ApiServices, private val useDao: UserDao, public val viewModelScope: CoroutineScope) : LoginRepository {
+    override fun getScope(): CoroutineScope {
+        return viewModelScope;
+    }
 
     override fun doLogin(request: LoginRequest): LiveData<Resource<LoginResponse>> {
         val loginResponse = MutableLiveData<Resource<LoginResponse>>()
@@ -41,8 +45,6 @@ class LoginRepositoryImpl(private val prefs: PrefsManager, private val apiServic
 
         return loginResponse
     }
-
-
 
 
     override fun fetchPersonalDetail(request: LoginRequest): LiveData<Resource<LoginResponse>> {
