@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.example.github.util
+package com.ebpearls.sample.utils
 
 import androidx.lifecycle.LiveData
 import com.ebpearls.sample.data.api.ApiResponse

@@ -35,9 +35,11 @@ import kotlinx.coroutines.withContext
  *
  * You can read more about it in the [Architecture
  * Guide](https://developer.android.com/arch).
- * @param <ResultType>
- * @param <RequestType>
-</RequestType></ResultType> */
+ * @param <ResultType> Type for the Resource data.
+ * @param <RequestType> Type for the API response.
+ *
+ *     */
+
 abstract class NetworkBoundResource<ResultType, RequestType>
 @MainThread constructor(private val viewModelScope: CoroutineScope) {
 

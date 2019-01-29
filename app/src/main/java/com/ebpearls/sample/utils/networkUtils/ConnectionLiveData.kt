@@ -1,4 +1,4 @@
-package com.example.ebpearls.dwell.util.connectiviyHelper
+package com.ebpearls.sample.utils.networkUtils
 
 import android.content.Context
 import android.net.ConnectivityManager

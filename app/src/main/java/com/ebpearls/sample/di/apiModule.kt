@@ -1,13 +1,11 @@
 package com.ebpearls.sample.di
 
-import com.android.example.github.util.LiveDataCallAdapterFactory
+import com.ebpearls.sample.utils.LiveDataCallAdapterFactory
 import com.ebpearls.sample.data.api.ApiServices
 import com.ebpearls.sample.di.DataSourceProperties.SERVER_URL
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.koin.dsl.module.Module
-import org.koin.dsl.module.applicationContext
 import org.koin.dsl.module.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

@@ -2,7 +2,7 @@ package com.ebpearls.sample.base
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.ebpearls.dwell.util.LoadingStatus
+import com.ebpearls.sample.utils.viewUtils.LoadingStatus
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

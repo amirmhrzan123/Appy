@@ -1,4 +1,4 @@
-package com.example.ebpearls.dwell.util
+package com.ebpearls.sample.utils.viewUtils
 
 import android.app.Dialog
 import android.content.Context

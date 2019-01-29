@@ -2,13 +2,12 @@ package com.ebpearls.sample.base
 
 import android.app.Dialog
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
-import com.example.ebpearls.dwell.util.ProgressDialogHelper
+import com.ebpearls.sample.utils.viewUtils.ProgressDialogHelper
 
 abstract class BaseActivity<M : BaseViewModel<*>, V : ViewDataBinding> : AppCompatActivity() {
     private var mViewDataBinding: V? = null
